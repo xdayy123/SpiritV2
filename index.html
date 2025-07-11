@@ -112,11 +112,14 @@
         <audio id="bg-music" src="index_files/duvet.mp3" preload="auto" loop></audio>
 
         <script>
-          document.addEventListener('click', function playMusic() {
             const audio = document.getElementById('bg-music');
-            audio.play();
-            document.removeEventListener('click', playMusic);
-          });
+
+            function playMusic() {
+                audio.play();
+                document.removeEventListener('click', playMusic);
+            }
+
+            document.addEventListener('click', playMusic);
         </script>
 
         <video src="videos/videoo.mp4" playsinline="" loop="" class="cbRyex_ca56e6cc6120e82558ef"></video>
