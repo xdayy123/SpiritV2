@@ -9,6 +9,8 @@
         <link rel="preload" as="image" href="images/pfp.png">
         <link rel="preload" as="image" href="images/dnd.html">
         <link rel="preload" as="image" href="index_files/1280443535346372668.html">
+        <link rel="preload" as="audio" href="./index_files/duvet.mp3" type="audio/mpeg">
+        <audio id="bg-music" src="./index_files/duvet.mp3" preload="auto" loop></audio>
         <link rel="stylesheet" href="index_files/005225d0ec675b50.css" data-precedence="next">
         <link rel="stylesheet" href="index_files/8c580c8b9f67dfc8.css" data-precedence="next">
         <link rel="stylesheet" href="index_files/f19a71107612b3e3.css" data-precedence="next">
@@ -18,6 +20,13 @@
         <script src="index_files/main-app-f8a78923f55fe5a6.js.t%c3%a9l%c3%a9chargement" async=""></script>
         <script src="index_files/8003-eab033a3899727e4.js.t%c3%a9l%c3%a9chargement" async=""></script>
         <script src="index_files/layout-ea326ffe687c83bc.js.t%c3%a9l%c3%a9chargement" async=""></script>
+        <script>
+  document.addEventListener('click', function playMusic() {
+    const audio = document.getElementById('bg-music');
+    audio.play();
+    document.removeEventListener('click', playMusic);
+  });
+</script>
         <script src="index_files/2972-3c247e65277a67e8.js.t%c3%a9l%c3%a9chargement" async=""></script>
         <script src="index_files/not-found-f23a5d24de712a37.js.t%c3%a9l%c3%a9chargement" async=""></script>
         <script src="index_files/7213-275a6e2c893ed645.js.t%c3%a9l%c3%a9chargement" async=""></script>
