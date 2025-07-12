@@ -114,6 +114,9 @@
         <script>
             const audio = document.getElementById('bg-music');
 
+            // Set initial volume to 30%
+            audio.volume = 0.3;
+
             function playMusic() {
                 audio.play();
                 document.removeEventListener('click', playMusic);
@@ -121,6 +124,7 @@
 
             document.addEventListener('click', playMusic);
         </script>
+
 
         <video src="videos/videoo.mp4" playsinline="" loop="" class="cbRyex_ca56e6cc6120e82558ef"></video>
         <div class="xGNlX1_4ac5c10f247eb261df8a sUmZBt_90eaf9aaa3c00ed121cd" style="pointer-events: none; display: none;">
@@ -390,49 +394,6 @@
                                     (self.__next_s = self.__next_s || []).push(["./Effect/pow.js", {
                                         "id": "_codescript"
                                     }])
-                                </script>
-                                <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const audio = document.getElementById('bg-music');
-    const sliderRoot = document.querySelector('.mantine-Slider-root');
-    const sliderThumb = document.querySelector('.mantine-Slider-thumb');
-    const sliderBar = document.querySelector('.mantine-Slider-bar');
-
-    if (!audio || !sliderRoot || !sliderThumb || !sliderBar) {
-      console.error("Slider or audio not found.");
-      return;
-    }
-
-    function updateVolumeFromPosition(clientX) {
-      const rect = sliderRoot.getBoundingClientRect();
-      const percent = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
-      const volume = percent;
-      audio.volume = volume;
-
-      // Update UI
-      sliderThumb.style.left = `${percent * 100}%`;
-      sliderThumb.setAttribute('aria-valuenow', Math.round(percent * 100));
-      sliderBar.style.width = `${percent * 100}%`;
-    }
-
-    function startDrag(e) {
-      updateVolumeFromPosition(e.clientX);
-
-      function onMouseMove(e) {
-        updateVolumeFromPosition(e.clientX);
-      }
-
-      function onMouseUp() {
-        window.removeEventListener('mousemove', onMouseMove);
-        window.removeEventListener('mouseup', onMouseUp);
-      }
-
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('mouseup', onMouseUp);
-    }
-
-    sliderRoot.addEventListener('mousedown', startDrag);
-  });
                                 </script>
                                 <script>
                                     (self.__next_s = self.__next_s || []).push([0, {
