@@ -208,30 +208,42 @@
                 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById('bg-music');
-    const sliderInput = document.getElementById('volume-slider');
+    const thumb = document.querySelector('.mantine-Slider-thumb');
 
-    if (!audio || !sliderInput) return;
+    if (!audio || !thumb) {
+      console.error('Audio or slider thumb not found.');
+      return;
+    }
 
-    // Set initial volume
-    audio.volume = sliderInput.value / 100;
+    function updateVolumeFromThumb() {
+      const left = thumb.style.left; // e.g., "100%"
+      if (!left.endsWith('%')) return;
 
-    // Use MutationObserver to detect changes to the slider's value
-    const observer = new MutationObserver(() => {
-      const newVolume = parseInt(sliderInput.value) / 100;
-      audio.volume = Math.min(Math.max(newVolume, 0), 1); // Clamp 0–1
-    });
+      const percent = parseFloat(left);
+      const volume = Math.min(Math.max(percent / 100, 0), 1);
+      audio.volume = volume;
 
-    observer.observe(sliderInput, {
+      // Debug output
+      // console.log('Volume set to:', volume);
+    }
+
+    // Initial set
+    updateVolumeFromThumb();
+
+    // Observe thumb style changes
+    const observer = new MutationObserver(updateVolumeFromThumb);
+    observer.observe(thumb, {
       attributes: true,
-      attributeFilter: ['value'],
+      attributeFilter: ['style']
     });
 
-    // Also attach fallback listener (in case JS manually changes it)
-    sliderInput.addEventListener('input', () => {
-      audio.volume = sliderInput.value / 100;
+    // Optional: also update on mouse drag / keyboard
+    ['input', 'mousemove', 'click', 'keydown'].forEach(event => {
+      thumb.addEventListener(event, updateVolumeFromThumb);
     });
   });
 </script>
+
 
                 <div class="aYchG2_8d25fbd2ec018e7f3333">
                     <div class="d2BGGX_089e78ae7261139e29df">
