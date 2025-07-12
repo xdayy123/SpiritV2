@@ -199,12 +199,40 @@
                                         </div>
                                     </div>
                                     <div class="mantine-s2z3jd mantine-Slider-marksContainer"></div>
-                                    <input type="hidden" value="100">
+                                    <input id="volume-slider" type="hidden" value="100">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const audio = document.getElementById('bg-music');
+    const sliderInput = document.getElementById('volume-slider');
+
+    if (!audio || !sliderInput) return;
+
+    // Set initial volume
+    audio.volume = sliderInput.value / 100;
+
+    // Use MutationObserver to detect changes to the slider's value
+    const observer = new MutationObserver(() => {
+      const newVolume = parseInt(sliderInput.value) / 100;
+      audio.volume = Math.min(Math.max(newVolume, 0), 1); // Clamp 0–1
+    });
+
+    observer.observe(sliderInput, {
+      attributes: true,
+      attributeFilter: ['value'],
+    });
+
+    // Also attach fallback listener (in case JS manually changes it)
+    sliderInput.addEventListener('input', () => {
+      audio.volume = sliderInput.value / 100;
+    });
+  });
+</script>
+
                 <div class="aYchG2_8d25fbd2ec018e7f3333">
                     <div class="d2BGGX_089e78ae7261139e29df">
                         <div style="position: fixed; width: 100%; max-width: var(--containerWidth); display: flex; justify-content: center; will-change: transform; transition: 700ms cubic-bezier(0.03, 0.98, 0.52, 0.99); transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1);">
