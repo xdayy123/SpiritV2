@@ -211,39 +211,30 @@
     const thumb = document.querySelector('.mantine-Slider-thumb');
 
     if (!audio || !thumb) {
-      console.error('Audio or slider thumb not found.');
+      console.error("Missing audio or slider.");
       return;
     }
 
-    function updateVolumeFromThumb() {
-      const left = thumb.style.left; // e.g., "100%"
-      if (!left.endsWith('%')) return;
+    let lastPercent = null;
 
-      const percent = parseFloat(left);
-      const volume = Math.min(Math.max(percent / 100, 0), 1);
-      audio.volume = volume;
+    function updateVolumeLoop() {
+      const left = thumb.style.left;
 
-      // Debug output
-      // console.log('Volume set to:', volume);
+      if (left && left.endsWith('%')) {
+        const percent = parseFloat(left);
+        if (percent !== lastPercent) {
+          lastPercent = percent;
+          const volume = Math.min(Math.max(percent / 100, 0), 1);
+          audio.volume = volume;
+        }
+      }
+
+      requestAnimationFrame(updateVolumeLoop);
     }
 
-    // Initial set
-    updateVolumeFromThumb();
-
-    // Observe thumb style changes
-    const observer = new MutationObserver(updateVolumeFromThumb);
-    observer.observe(thumb, {
-      attributes: true,
-      attributeFilter: ['style']
-    });
-
-    // Optional: also update on mouse drag / keyboard
-    ['input', 'mousemove', 'click', 'keydown'].forEach(event => {
-      thumb.addEventListener(event, updateVolumeFromThumb);
-    });
+    updateVolumeLoop(); // start tracking
   });
 </script>
-
 
                 <div class="aYchG2_8d25fbd2ec018e7f3333">
                     <div class="d2BGGX_089e78ae7261139e29df">
