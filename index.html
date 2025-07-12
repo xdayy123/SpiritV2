@@ -208,33 +208,47 @@
                 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById('bg-music');
-    const thumb = document.querySelector('.mantine-Slider-thumb');
+    const sliderRoot = document.querySelector('.mantine-Slider-root');
+    const sliderThumb = document.querySelector('.mantine-Slider-thumb');
+    const sliderBar = document.querySelector('.mantine-Slider-bar');
 
-    if (!audio || !thumb) {
-      console.error("Missing audio or slider.");
+    if (!audio || !sliderRoot || !sliderThumb || !sliderBar) {
+      console.error("Slider or audio not found.");
       return;
     }
 
-    let lastPercent = null;
+    function updateVolumeFromPosition(clientX) {
+      const rect = sliderRoot.getBoundingClientRect();
+      const percent = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+      const volume = percent;
+      audio.volume = volume;
 
-    function updateVolumeLoop() {
-      const left = thumb.style.left;
-
-      if (left && left.endsWith('%')) {
-        const percent = parseFloat(left);
-        if (percent !== lastPercent) {
-          lastPercent = percent;
-          const volume = Math.min(Math.max(percent / 100, 0), 1);
-          audio.volume = volume;
-        }
-      }
-
-      requestAnimationFrame(updateVolumeLoop);
+      // Update UI
+      sliderThumb.style.left = `${percent * 100}%`;
+      sliderThumb.setAttribute('aria-valuenow', Math.round(percent * 100));
+      sliderBar.style.width = `${percent * 100}%`;
     }
 
-    updateVolumeLoop(); // start tracking
+    function startDrag(e) {
+      updateVolumeFromPosition(e.clientX);
+
+      function onMouseMove(e) {
+        updateVolumeFromPosition(e.clientX);
+      }
+
+      function onMouseUp() {
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+      }
+
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+    }
+
+    sliderRoot.addEventListener('mousedown', startDrag);
   });
 </script>
+
 
                 <div class="aYchG2_8d25fbd2ec018e7f3333">
                     <div class="d2BGGX_089e78ae7261139e29df">
