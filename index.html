@@ -131,6 +131,44 @@
                 }
             });
         </script>
+        <script>
+          document.addEventListener('DOMContentLoaded', () => {
+            const audio = document.getElementById('bg-music');
+            const thumb = document.querySelector('.mantine-Slider-thumb');
+
+            if (!audio || !thumb) {
+              console.error("Audio element or slider thumb not found.");
+              return;
+            }
+
+            let lastValue = null;
+
+            function updateVolume() {
+              const attr = thumb.getAttribute('aria-valuenow');
+              if (!attr) return;
+        
+              const percent = parseFloat(attr);
+              if (isNaN(percent)) return;
+
+              if (percent !== lastValue) {
+                lastValue = percent;
+                const volume = Math.min(Math.max(percent / 100, 0), 1);
+                audio.volume = volume;
+                // Debug output
+                console.log("Volume set to:", volume);
+              }
+            }
+
+            // Run every frame to catch slider interaction
+            function loop() {
+              updateVolume();
+              requestAnimationFrame(loop);
+            }
+
+            loop(); // Start watching
+          });
+        </script>
+
 
 
 
